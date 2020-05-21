@@ -172,7 +172,7 @@ class ECPayPaymentHelper extends ECPayPaymentModuleHelper
         $this->sdk->ServiceURL = $this->getUrl('checkOut'); // Get Checkout URL
         $this->sdk->EncryptType = $this->encryptType;
         $this->sdk->Send['ReturnURL'] = $inputs['returnUrl'];
-        $this->sdk->Send['ClientBackURL'] = $this->filterUrl($inputs['clientBackUrl']);
+        $this->sdk->Send['OrderResultURL'] = $this->filterUrl($inputs['clientBackUrl']);
         $this->sdk->Send['MerchantTradeNo'] = $this->setMerchantTradeNo($inputs['orderId']);
         $this->sdk->Send['MerchantTradeDate'] = $this->getDateTime('Y/m/d H:i:s', '');
         $this->sdk->Send['TradeDesc'] = $this->getModuleDescription($inputs['cartName']);
@@ -228,6 +228,7 @@ class ECPayPaymentHelper extends ECPayPaymentModuleHelper
             case $this->getSdkPaymentMethod('atm'):
                 $this->sdk->SendExtend['ExpireDate'] = 3;
                 $this->sdk->SendExtend['PaymentInfoURL'] = $this->sdk->Send['ReturnURL'];
+                $this->sdk->SendExtend['ClientRedirectURL'] = $this->sdk->Send['OrderResultURL'];
                 break;
             case $this->getSdkPaymentMethod('cvs'):
             case $this->getSdkPaymentMethod('barcode'):
